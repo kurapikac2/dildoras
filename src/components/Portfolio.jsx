@@ -168,6 +168,9 @@ export const Portfolio = () => {
                         <video
                           src={getCurrentVideoSrc(item)}
                           className="w-full h-full object-cover"
+                          autoPlay
+                          loop
+                          muted
                           controls
                           playsInline
                           preload="none"
@@ -227,6 +230,7 @@ export const Portfolio = () => {
                     src={activePreview.src}
                     className="max-w-full max-h-[90vh] object-contain"
                     controls
+                    autoPlay
                     playsInline
                     preload="metadata"
                   />
