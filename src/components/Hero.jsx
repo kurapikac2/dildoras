@@ -1,7 +1,50 @@
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
 export const Hero = () => {
+  const videoRef = useRef(null);
+  const [isVideoInView, setIsVideoInView] = useState(false);
+
+  useEffect(() => {
+    const videoElement = videoRef.current;
+
+    if (!videoElement) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVideoInView(entry.isIntersecting && entry.intersectionRatio > 0.35);
+      },
+      { threshold: [0, 0.35, 0.7] }
+    );
+
+    observer.observe(videoElement);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    const videoElement = videoRef.current;
+
+    if (!videoElement) {
+      return;
+    }
+
+    if (isVideoInView) {
+      const playAttempt = videoElement.play();
+      if (playAttempt?.catch) {
+        playAttempt.catch(() => {});
+      }
+      return;
+    }
+
+    videoElement.pause();
+  }, [isVideoInView]);
+
   return (
     <section className="relative min-h-[100svh] w-full bg-[#F5EDEE] overflow-hidden">
       {/* Subtle background texture */}
@@ -77,14 +120,18 @@ export const Hero = () => {
             <div className="relative w-[280px] sm:w-[320px] md:w-[360px] lg:w-[380px] xl:w-[420px] aspect-[9/16] overflow-hidden rounded-[2px] shadow-2xl shadow-black/10">
               <div className="absolute inset-0 bg-gradient-to-br from-[#FAF9F7] via-[#F5EDEE] to-[#EFE3E0]">
                 <video
-                  autoPlay
+                  ref={videoRef}
+                  controls={false}
                   loop
                   muted
                   playsInline
-                  preload="metadata"
-                  className="w-full h-full object-cover"
-                  src="/videos/hero-video1.MP4"
-                  poster="/images/photo1.png"
+                  disablePictureInPicture
+                  controlsList="nodownload noplaybackrate noremoteplayback nofullscreen"
+                  preload="none"
+                  className="w-full h-full object-cover pointer-events-none select-none transform-gpu will-change-transform"
+                  src="/videos/hero-video1.mp4"
+                  poster="/images/photo1.jpg"
+                  onContextMenu={(event) => event.preventDefault()}
                 />
               </div>
 

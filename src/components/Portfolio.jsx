@@ -164,16 +164,25 @@ export const Portfolio = () => {
                         );
                       }
 
+                      const fallbackPosterByCategory = {
+                        Brands: "/images/photo2.jpg",
+                        Weddings: "/images/photo3.jpg",
+                        Lifestyle: "/images/photo9.jpg",
+                      };
+
                       return (
                         <video
                           src={getCurrentVideoSrc(item)}
-                          className="w-full h-full object-cover"
-                          autoPlay
-                          loop
+                          poster={fallbackPosterByCategory[item.category] ?? "/images/photo1.jpg"}
+                          className="w-full h-full object-cover pointer-events-none select-none"
                           muted
-                          controls
                           playsInline
-                          preload="none"
+                          disablePictureInPicture
+                          controlsList="nodownload noplaybackrate noremoteplayback nofullscreen"
+                          preload="metadata"
+                          onLoadedData={(event) => {
+                            event.currentTarget.pause();
+                          }}
                           onError={() => {
                             setVideoTryIndex((prev) => ({ ...prev, [item.id]: nextIndex }));
                           }}
@@ -228,11 +237,15 @@ export const Portfolio = () => {
                 ) : (
                   <video
                     src={activePreview.src}
-                    className="max-w-full max-h-[90vh] object-contain"
-                    controls
+                    className="max-w-full max-h-[90vh] object-contain pointer-events-none select-none"
                     autoPlay
+                    loop
+                    muted
                     playsInline
+                    disablePictureInPicture
+                    controlsList="nodownload noplaybackrate noremoteplayback nofullscreen"
                     preload="metadata"
+                    onContextMenu={(event) => event.preventDefault()}
                   />
                 )}
 

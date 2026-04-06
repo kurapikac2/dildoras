@@ -1,10 +1,51 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const VideoBlock = () => {
   const [videoSourceIndex, setVideoSourceIndex] = useState(0);
+  const [isVideoInView, setIsVideoInView] = useState(false);
+  const videoRef = useRef(null);
   const videoSources = ["/videos/video-main.mp4", "/videos/video-main.MP4"];
   const currentVideoSrc = videoSources[videoSourceIndex];
+
+  useEffect(() => {
+    const videoElement = videoRef.current;
+
+    if (!videoElement) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVideoInView(entry.isIntersecting && entry.intersectionRatio > 0.35);
+      },
+      { threshold: [0, 0.35, 0.7] }
+    );
+
+    observer.observe(videoElement);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    const videoElement = videoRef.current;
+
+    if (!videoElement) {
+      return;
+    }
+
+    if (isVideoInView) {
+      const playAttempt = videoElement.play();
+      if (playAttempt?.catch) {
+        playAttempt.catch(() => {});
+      }
+      return;
+    }
+
+    videoElement.pause();
+  }, [isVideoInView]);
 
   return (
     <section className="py-24 md:py-32 bg-muted">
@@ -34,13 +75,17 @@ export const VideoBlock = () => {
           <div className="absolute inset-0 flex items-center justify-center bg-[#D4CFC9]">
             {currentVideoSrc ? (
               <video
-                autoPlay
+                ref={videoRef}
+                controls={false}
                 loop
                 muted
                 playsInline
-                controls
-                className="w-full h-full object-cover"
+                disablePictureInPicture
+                controlsList="nodownload noplaybackrate noremoteplayback nofullscreen"
+                preload="none"
+                className="w-full h-full object-cover pointer-events-none select-none transform-gpu will-change-transform"
                 src={currentVideoSrc}
+                onContextMenu={(event) => event.preventDefault()}
                 onError={() => {
                   setVideoSourceIndex((prev) => (prev + 1 < videoSources.length ? prev + 1 : prev));
                 }}

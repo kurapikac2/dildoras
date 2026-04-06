@@ -39,6 +39,14 @@ const TelegramIcon = ({ className }) => (
 );
 
 export const Contact = () => {
+  const handleOpenInstagram = () => {
+    window.open("https://www.instagram.com/feelmyvb?igsh=NHRhMm5ibXc2ZW1x", "_blank", "noopener,noreferrer");
+  };
+
+  const handleOpenTelegram = () => {
+    window.open("https://t.me/di022ra", "_blank", "noopener,noreferrer");
+  };
+
   return (
     <section id="contact" className="py-24 md:py-32 px-6 md:px-12 bg-background border-t border-border/30">
       <div className="container mx-auto max-w-4xl text-center">
@@ -57,12 +65,21 @@ export const Contact = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-            <Button size="lg" className="w-full sm:w-auto rounded-none font-sans tracking-wide h-14 px-8 bg-foreground text-background hover:bg-foreground/90 group">
+            <Button
+              size="lg"
+              className="w-full sm:w-auto rounded-none font-sans tracking-wide h-14 px-8 bg-foreground text-background hover:bg-foreground/90 group"
+              onClick={handleOpenInstagram}
+            >
               <InstagramIcon className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
               Instagram
             </Button>
             
-            <Button size="lg" variant="outline" className="w-full sm:w-auto rounded-none font-sans tracking-wide h-14 px-8 border-foreground/20 hover:bg-muted group">
+            <Button
+              size="lg"
+              variant="outline"
+              className="w-full sm:w-auto rounded-none font-sans tracking-wide h-14 px-8 border-foreground/20 hover:bg-muted group"
+              onClick={handleOpenTelegram}
+            >
               <TelegramIcon className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
               Telegram
             </Button>
