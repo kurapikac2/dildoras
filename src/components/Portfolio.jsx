@@ -52,9 +52,17 @@ export const Portfolio = () => {
   const filteredItems = useMemo(() => {
     let items = portfolioItems;
     
+    // Items that should only appear in Weddings filter
+    const weddingsOnlyItems = [3, 8, 11, 13]; // photo3, photo8, video2, photo11
+    
     // Only show Weddings items if they've been loaded
     if (filter === "Weddings" && !weddingsLoaded) {
       items = items.filter(item => item.category !== "Weddings");
+    }
+    
+    // Hide weddings-only items from main view ("All" filter)
+    if (filter === "All") {
+      items = items.filter(item => !weddingsOnlyItems.includes(item.id));
     }
     
     if (filter !== "All") {
