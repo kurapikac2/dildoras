@@ -127,10 +127,10 @@ export const Hero = () => {
                   playsInline
                   disablePictureInPicture
                   controlsList="nodownload noplaybackrate noremoteplayback nofullscreen"
-                  preload="none"
+                  preload="metadata"
                   className="w-full h-full object-cover pointer-events-none select-none transform-gpu will-change-transform"
                   src="/videos/hero-video1.mp4"
-                  poster="/images/photo1.jpg"
+                  poster="/images/photo1.webp"
                   onContextMenu={(event) => event.preventDefault()}
                 />
               </div>

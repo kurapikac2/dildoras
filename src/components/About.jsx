@@ -14,7 +14,7 @@ export const About = () => {
             transition={{ duration: 0.8 }}
             className="aspect-[4/5] bg-muted relative"
           >
-            <img src="/images/photo-about.jpg" alt="About portrait" className="w-full h-full object-cover" loading="lazy" />
+            <img src="/images/photo-about.webp" alt="About portrait" className="w-full h-full object-cover" loading="lazy" />
           </motion.div>
 
           {/* Text Side */}

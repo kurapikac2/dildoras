@@ -9,6 +9,7 @@ export const Portfolio = () => {
   const [imageTryIndex, setImageTryIndex] = useState({});
   const [videoTryIndex, setVideoTryIndex] = useState({});
   const [activePreview, setActivePreview] = useState(null);
+  const [isPreviewVideoLoading, setIsPreviewVideoLoading] = useState(false);
 
   const buildSrcCandidates = (source, variants) => {
     const lastSlash = source.lastIndexOf("/");
@@ -127,10 +128,12 @@ export const Portfolio = () => {
                 className="group relative aspect-[4/5] overflow-hidden bg-muted cursor-pointer"
                 onClick={() => {
                   if (item.type === "image") {
+                    setIsPreviewVideoLoading(false);
                     setActivePreview({ type: "image", src: getCurrentImageSrc(item), title: item.title });
                   }
 
                   if (item.type === "video") {
+                    setIsPreviewVideoLoading(true);
                     setActivePreview({ type: "video", src: getCurrentVideoSrc(item), title: item.title });
                   }
                 }}
@@ -152,40 +155,18 @@ export const Portfolio = () => {
                     />
                   ) : (
                     (() => {
-                      const nextIndex = (videoTryIndex[item.id] ?? 0) + 1;
-                      const maxIndex = (videoSrcCandidates[item.id]?.length ?? 1) - 1;
-                      const hasMoreSources = nextIndex <= maxIndex;
-
-                      if (!hasMoreSources) {
-                        return (
-                          <div className="w-full h-full flex items-center justify-center text-muted-foreground/30 font-heading text-2xl">
-                            <Play size={48} />
-                          </div>
-                        );
-                      }
-
                       const fallbackPosterByCategory = {
-                        Brands: "/images/photo2.jpg",
-                        Weddings: "/images/photo3.jpg",
-                        Lifestyle: "/images/photo9.jpg",
+                        Brands: "/images/photo2.webp",
+                        Weddings: "/images/photo3.webp",
+                        Lifestyle: "/images/photo9.webp",
                       };
 
                       return (
-                        <video
-                          src={getCurrentVideoSrc(item)}
-                          poster={fallbackPosterByCategory[item.category] ?? "/images/photo1.jpg"}
+                        <img
+                          src={fallbackPosterByCategory[item.category] ?? "/images/photo1.webp"}
+                          alt={item.title}
                           className="w-full h-full object-cover pointer-events-none select-none"
-                          muted
-                          playsInline
-                          disablePictureInPicture
-                          controlsList="nodownload noplaybackrate noremoteplayback nofullscreen"
-                          preload="metadata"
-                          onLoadedData={(event) => {
-                            event.currentTarget.pause();
-                          }}
-                          onError={() => {
-                            setVideoTryIndex((prev) => ({ ...prev, [item.id]: nextIndex }));
-                          }}
+                          loading="lazy"
                         />
                       );
                     })()
@@ -218,7 +199,10 @@ export const Portfolio = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm p-4 md:p-8 flex items-center justify-center"
-              onClick={() => setActivePreview(null)}
+              onClick={() => {
+                setActivePreview(null);
+                setIsPreviewVideoLoading(false);
+              }}
             >
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -235,23 +219,39 @@ export const Portfolio = () => {
                     className="max-w-full max-h-[90vh] object-contain"
                   />
                 ) : (
-                  <video
-                    src={activePreview.src}
-                    className="max-w-full max-h-[90vh] object-contain pointer-events-none select-none"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    disablePictureInPicture
-                    controlsList="nodownload noplaybackrate noremoteplayback nofullscreen"
-                    preload="metadata"
-                    onContextMenu={(event) => event.preventDefault()}
-                  />
+                  <div className="relative max-w-full max-h-[90vh]">
+                    <video
+                      src={activePreview.src}
+                      className="max-w-full max-h-[90vh] object-contain pointer-events-none select-none"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      disablePictureInPicture
+                      controlsList="nodownload noplaybackrate noremoteplayback nofullscreen"
+                      preload="metadata"
+                      onLoadedData={() => setIsPreviewVideoLoading(false)}
+                      onCanPlay={() => setIsPreviewVideoLoading(false)}
+                      onError={() => setIsPreviewVideoLoading(false)}
+                      onContextMenu={(event) => event.preventDefault()}
+                    />
+                    {isPreviewVideoLoading && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/45 text-white">
+                        <div className="flex flex-col items-center gap-3">
+                          <div className="h-10 w-10 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                          <p className="text-sm tracking-[0.08em] uppercase">Loading video...</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 )}
 
                 <button
                   type="button"
-                  onClick={() => setActivePreview(null)}
+                  onClick={() => {
+                    setActivePreview(null);
+                    setIsPreviewVideoLoading(false);
+                  }}
                   className="absolute top-3 right-3 md:top-4 md:right-4 h-10 w-10 rounded-full bg-black/50 text-white text-xl leading-none hover:bg-black/70 transition-colors"
                   aria-label="Close preview"
                 >
