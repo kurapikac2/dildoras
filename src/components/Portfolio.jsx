@@ -10,6 +10,7 @@ export const Portfolio = () => {
   const [videoTryIndex, setVideoTryIndex] = useState({});
   const [activePreview, setActivePreview] = useState(null);
   const [isPreviewVideoLoading, setIsPreviewVideoLoading] = useState(false);
+  const [weddingsLoaded, setWeddingsLoaded] = useState(false);
 
   const buildSrcCandidates = (source, variants) => {
     const lastSlash = source.lastIndexOf("/");
@@ -42,14 +43,27 @@ export const Portfolio = () => {
   
   const categories = ["All", ...new Set(portfolioItems.map(item => item.category))];
 
+  useEffect(() => {
+    if (filter === "Weddings" && !weddingsLoaded) {
+      setWeddingsLoaded(true);
+    }
+  }, [filter, weddingsLoaded]);
+
   const filteredItems = useMemo(() => {
+    let items = portfolioItems;
+    
+    // Only show Weddings items if they've been loaded
+    if (filter === "Weddings" && !weddingsLoaded) {
+      items = items.filter(item => item.category !== "Weddings");
+    }
+    
     if (filter !== "All") {
-      return portfolioItems.filter((item) => item.category === filter);
+      items = items.filter((item) => item.category === filter);
     }
 
     const rowOrder = ["Brands", "Weddings", "Lifestyle"];
-    const imageItems = portfolioItems.filter((item) => item.type === "image");
-    const videoItems = portfolioItems.filter((item) => item.type === "video");
+    const imageItems = items.filter((item) => item.type === "image");
+    const videoItems = items.filter((item) => item.type === "video");
 
     const orderedImages = rowOrder.flatMap((category) =>
       imageItems.filter((item) => item.category === category)
@@ -60,7 +74,7 @@ export const Portfolio = () => {
     );
 
     return [...orderedImages, ...remainingImages, ...videoItems];
-  }, [filter]);
+  }, [filter, weddingsLoaded]);
 
   useEffect(() => {
     const onKeyDown = (event) => {
@@ -161,9 +175,15 @@ export const Portfolio = () => {
                         Lifestyle: "/images/photo9.webp",
                       };
 
+                      // Specific video posters
+                      const videoPosters = {
+                        "/videos/video2.mp4": "/images/photo3.webp",
+                        "/videos/video4.mp4": "/images/photo12.webp",
+                      };
+
                       return (
                         <img
-                          src={fallbackPosterByCategory[item.category] ?? "/images/photo1.webp"}
+                          src={videoPosters[item.src] ?? fallbackPosterByCategory[item.category] ?? "/images/photo1.webp"}
                           alt={item.title}
                           className="w-full h-full object-cover pointer-events-none select-none"
                           loading="lazy"
@@ -230,8 +250,14 @@ export const Portfolio = () => {
                       disablePictureInPicture
                       controlsList="nodownload noplaybackrate noremoteplayback nofullscreen"
                       preload="metadata"
-                      onLoadedData={() => setIsPreviewVideoLoading(false)}
-                      onCanPlay={() => setIsPreviewVideoLoading(false)}
+                      onLoadedData={(e) => {
+                        setIsPreviewVideoLoading(false);
+                        e.target.play().catch(() => {});
+                      }}
+                      onCanPlay={(e) => {
+                        setIsPreviewVideoLoading(false);
+                        e.target.play().catch(() => {});
+                      }}
                       onError={() => setIsPreviewVideoLoading(false)}
                       onContextMenu={(event) => event.preventDefault()}
                     />

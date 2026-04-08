@@ -82,5 +82,33 @@ export const portfolioItems = [
     category: "Lifestyle",
     src: "/videos/video3.mp4",
     title: "Lifestyle reel"
+  },
+  {
+    id: 13,
+    type: "image",
+    category: "Weddings",
+    src: "/images/photo11.webp",
+    title: "Wedding details"
+  },
+  {
+    id: 14,
+    type: "image",
+    category: "Weddings",
+    src: "/images/photo12.webp",
+    title: "Romantic moment"
+  },
+  {
+    id: 15,
+    type: "image",
+    category: "Weddings",
+    src: "/images/photo13.webp",
+    title: "Elegant portrait"
+  },
+  {
+    id: 16,
+    type: "video",
+    category: "Weddings",
+    src: "/videos/video4.mp4",
+    title: "Wedding cinema"
   }
 ];
