@@ -1,0 +1,71 @@
+{
+  "nav": {
+    "portfolio": "Portfolio",
+    "about": "About",
+    "services": "Services",
+    "contact": "Contact"
+  },
+  "hero": {
+    "subtitle": "Dildora Photography",
+    "title1": "Dildora",
+    "title2": "visuals",
+    "description": "Soft visuals for brands, weddings and personal moments",
+    "viewPortfolio": "View portfolio",
+    "contact": "Contact",
+    "scroll": "Scroll"
+  },
+  "portfolio": {
+    "title": "Selected works",
+    "all": "All",
+    "photos": "Photos",
+    "videos": "Videos",
+    "loading": "Loading video...",
+    "categories": {
+      "brands": "Brands",
+      "weddings": "Weddings",
+      "lifestyle": "Lifestyle",
+      "clothingBrands": "Clothing brands"
+    }
+  },
+  "videoBlock": {
+    "title": "Visual storytelling through motion",
+    "subtitle": "Cinematic moments captured with softness, rhythm and emotion."
+  },
+  "about": {
+    "title1": "Capturing light,",
+    "title2": "details & emotion.",
+    "p1": "I create soft, aesthetic visuals with focus on light, details and emotion. Working with brands, weddings and personal stories.",
+    "p2": "My approach is rooted in simplicity and elegance, ensuring that every frame feels timeless, authentic, and deeply personal."
+  },
+  "services": {
+    "title": "Services",
+    "subtitle": "Tailored visual solutions for your needs",
+    "brandShooting": {
+      "title": "Brand shooting",
+      "description": "Aesthetic content for fashion, beauty and lifestyle brands."
+    },
+    "wedding": {
+      "title": "Wedding / ZAGS",
+      "description": "Soft, emotional and timeless moments from your special day."
+    },
+    "personal": {
+      "title": "Personal shooting",
+      "description": "Elegant personal portraits with natural light and atmosphere."
+    }
+  },
+  "contact": {
+    "title": "Let's create something beautiful",
+    "subtitle": "For bookings, collaborations and personal projects — feel free to reach out.",
+    "instagram": "Instagram",
+    "telegram": "Telegram",
+    "availability": "Available for selected projects worldwide"
+  },
+  "footer": {
+    "portfolio": "Portfolio.",
+    "rights": "All rights reserved."
+  },
+  "language": {
+    "en": "EN",
+    "ru": "RU"
+  }
+}
