@@ -15,10 +15,8 @@ export const Footer = () => {
           © {currentYear} {t('footer.rights')}
         </div>
         
-        <div className="flex gap-6 text-sm">
-          <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">IG</a>
-          <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">TG</a>
-          <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Mail</a>
+        <div className="text-sm text-muted-foreground font-light">
+          created by svens
         </div>
       </div>
     </footer>

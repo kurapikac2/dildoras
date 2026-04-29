@@ -1,13 +1,11 @@
 import { motion } from "framer-motion";
-import { Play } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from 'react-i18next';
 
 export const VideoBlock = () => {
   const { t } = useTranslation();
   const [videoSourceIndex, setVideoSourceIndex] = useState(0);
-  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
-  const [isVideoLoading, setIsVideoLoading] = useState(false);
+  const [isVideoLoading, setIsVideoLoading] = useState(true);
   const [isVideoInView, setIsVideoInView] = useState(false);
   const videoRef = useRef(null);
   const videoSources = ["/videos/video-main.mp4", "/videos/video-main.MP4"];
@@ -16,7 +14,7 @@ export const VideoBlock = () => {
   useEffect(() => {
     const videoElement = videoRef.current;
 
-    if (!shouldLoadVideo || !videoElement) {
+    if (!videoElement) {
       return;
     }
 
@@ -32,12 +30,12 @@ export const VideoBlock = () => {
     return () => {
       observer.disconnect();
     };
-  }, [shouldLoadVideo]);
+  }, []);
 
   useEffect(() => {
     const videoElement = videoRef.current;
 
-    if (!shouldLoadVideo || !videoElement) {
+    if (!videoElement) {
       return;
     }
 
@@ -50,7 +48,7 @@ export const VideoBlock = () => {
     }
 
     videoElement.pause();
-  }, [isVideoInView, shouldLoadVideo, currentVideoSrc]);
+  }, [isVideoInView, currentVideoSrc]);
 
   return (
     <section className="py-24 md:py-32 bg-muted">
@@ -77,73 +75,42 @@ export const VideoBlock = () => {
           transition={{ duration: 0.8 }}
           className="relative aspect-video w-full max-w-5xl mx-auto bg-black overflow-hidden shadow-2xl"
         >
-          <div className="absolute inset-0 flex items-center justify-center bg-[#D4CFC9]">
-            {shouldLoadVideo && currentVideoSrc ? (
-              <div className="relative w-full h-full">
-                <video
-                  ref={videoRef}
-                  controls={false}
-                  loop
-                  muted
-                  playsInline
-                  disablePictureInPicture
-                  controlsList="nodownload noplaybackrate noremoteplayback nofullscreen"
-                  preload="metadata"
-                  className="w-full h-full object-cover pointer-events-none select-none transform-gpu will-change-transform"
-                  src={currentVideoSrc}
-                  onLoadedData={() => {
-                    setIsVideoLoading(false);
-                    if (isVideoInView) {
-                      videoRef.current.play().catch(() => {});
-                    }
-                  }}
-                  onCanPlay={() => {
-                    setIsVideoLoading(false);
-                    if (isVideoInView) {
-                      videoRef.current.play().catch(() => {});
-                    }
-                  }}
-                  onContextMenu={(event) => event.preventDefault()}
-                  onError={() => {
-                    if (videoSourceIndex + 1 < videoSources.length) {
-                      setVideoSourceIndex(videoSourceIndex + 1);
-                      setIsVideoLoading(true);
-                      return;
-                    }
-                    setIsVideoLoading(false);
-                  }}
-                />
-                {isVideoLoading && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/45 text-white">
-                    <div className="flex flex-col items-center gap-3">
-                      <div className="h-10 w-10 rounded-full border-2 border-white/30 border-t-white animate-spin" />
-                      <p className="text-sm tracking-[0.08em] uppercase">{t('portfolio.loading')}</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <button
-                type="button"
-                onClick={() => {
-                  setShouldLoadVideo(true);
+          <div className="relative w-full h-full bg-[#D4CFC9]">
+            <video
+              ref={videoRef}
+              controls={false}
+              loop
+              muted
+              playsInline
+              disablePictureInPicture
+              controlsList="nodownload noplaybackrate noremoteplayback nofullscreen"
+              preload="metadata"
+              className="w-full h-full object-cover pointer-events-none select-none transform-gpu will-change-transform"
+              src={currentVideoSrc}
+              poster="/images/main-preview.webp"
+              onLoadedData={() => {
+                setIsVideoLoading(false);
+              }}
+              onCanPlay={() => {
+                setIsVideoLoading(false);
+              }}
+              onContextMenu={(event) => event.preventDefault()}
+              onError={() => {
+                if (videoSourceIndex + 1 < videoSources.length) {
+                  setVideoSourceIndex(videoSourceIndex + 1);
                   setIsVideoLoading(true);
-                }}
-                className="group relative w-full h-full"
-                aria-label="Play highlight video"
-              >
-                <img
-                  src="/images/main-preview.webp"
-                  alt="Video preview"
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
-                <span className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                  <span className="h-16 w-16 rounded-full bg-white/90 text-foreground flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
-                    <Play size={28} className="ml-0.5" />
-                  </span>
-                </span>
-              </button>
+                  return;
+                }
+                setIsVideoLoading(false);
+              }}
+            />
+            {isVideoLoading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/45 text-white">
+                <div className="flex flex-col items-center gap-3">
+                  <div className="h-10 w-10 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                  <p className="text-sm tracking-[0.08em] uppercase">{t('portfolio.loading')}</p>
+                </div>
+              </div>
             )}
           </div>
         </motion.div>
