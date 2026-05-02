@@ -56,8 +56,9 @@ export const Contact = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ type: "spring", stiffness: 80, damping: 20 }}
+          className="will-change-transform"
         >
           <h2 className="text-4xl md:text-6xl font-heading mb-6 text-foreground tracking-tight">
             {t('contact.title')}

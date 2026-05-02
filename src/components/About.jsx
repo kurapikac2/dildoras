@@ -12,9 +12,9 @@ export const About = () => {
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="aspect-[4/5] bg-muted relative"
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ type: "spring", stiffness: 60, damping: 20 }}
+            className="aspect-[4/5] bg-muted relative will-change-transform"
           >
             <img src="/images/photo-about.webp" alt="About portrait" className="w-full h-full object-cover" loading="lazy" />
           </motion.div>
@@ -23,9 +23,9 @@ export const About = () => {
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="flex flex-col justify-center"
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ type: "spring", stiffness: 60, damping: 20 }}
+            className="flex flex-col justify-center will-change-transform"
           >
             <h2 className="text-3xl md:text-5xl font-heading mb-8 text-foreground leading-tight">
               {t('about.title1')} <br />

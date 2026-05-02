@@ -4,6 +4,30 @@ import { SectionTitle } from "./SectionTitle";
 import { Sparkles, Heart, Camera } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 80,
+      damping: 20
+    }
+  }
+};
+
 const iconMap = {
   Sparkles: Sparkles,
   Heart: Heart,
@@ -40,17 +64,21 @@ export const Services = () => {
       <div className="container mx-auto max-w-6xl">
         <SectionTitle title={t('services.title')} subtitle={t('services.subtitle')} />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
-          {services.map((service, index) => {
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={containerVariants}
+        >
+          {services.map((service) => {
             const Icon = iconMap[service.icon];
             
             return (
               <motion.div
                 key={service.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                variants={itemVariants}
+                className="will-change-transform"
               >
                 <Card className="h-full bg-background border-border/50 hover:border-foreground/20 transition-colors duration-300 rounded-none shadow-sm hover:shadow-md">
                   <CardHeader className="text-center pb-4 pt-10">
@@ -68,7 +96,7 @@ export const Services = () => {
               </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

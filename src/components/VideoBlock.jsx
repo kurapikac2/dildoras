@@ -56,8 +56,8 @@ export const VideoBlock = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ type: "spring", stiffness: 80, damping: 20 }}
           className="mb-12 md:mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-heading text-foreground mb-4">
@@ -71,9 +71,9 @@ export const VideoBlock = () => {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="relative aspect-video w-full max-w-5xl mx-auto bg-black overflow-hidden shadow-2xl"
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ type: "spring", stiffness: 60, damping: 25 }}
+          className="relative aspect-video w-full max-w-5xl mx-auto bg-black overflow-hidden shadow-2xl will-change-transform"
         >
           <div className="relative w-full h-full bg-[#D4CFC9]">
             <video

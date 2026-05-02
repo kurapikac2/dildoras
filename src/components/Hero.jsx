@@ -56,11 +56,11 @@ export const Hero = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center w-full py-24 lg:py-0">
 
           {/* Left side — Text */}
-          <div className="flex flex-col justify-center order-2 lg:order-1 text-center lg:text-left">
+          <div className="flex flex-col justify-center order-2 lg:order-1 text-center lg:text-left will-change-transform">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ type: "spring", stiffness: 100, damping: 20 }}
               className="mb-6"
             >
               <span className="text-sm tracking-[0.3em] uppercase text-muted-foreground font-sans">
@@ -71,8 +71,8 @@ export const Hero = () => {
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
-              className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-heading text-foreground mb-8 tracking-tight leading-[1.1]"
+              transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.1 }}
+              className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-heading text-foreground mb-8 tracking-tight leading-[1.1] will-change-transform"
             >
               {t('hero.title1')}
               <br />
@@ -82,8 +82,8 @@ export const Hero = () => {
             <motion.p
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.25 }}
-              className="text-lg md:text-xl text-muted-foreground font-sans max-w-md mb-10 font-light tracking-wide leading-relaxed mx-auto lg:mx-0"
+              transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.2 }}
+              className="text-lg md:text-xl text-muted-foreground font-sans max-w-md mb-10 font-light tracking-wide leading-relaxed mx-auto lg:mx-0 will-change-transform"
             >
               {t('hero.description')}
             </motion.p>
@@ -91,8 +91,8 @@ export const Hero = () => {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+              transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.3 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start will-change-transform"
             >
               <Button
                 size="lg"
@@ -116,8 +116,8 @@ export const Hero = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
-            className="order-1 lg:order-2 flex justify-center lg:justify-end"
+            transition={{ type: "spring", stiffness: 60, damping: 25, delay: 0.3 }}
+            className="order-1 lg:order-2 flex justify-center lg:justify-end will-change-transform"
           >
             <div className="relative w-[280px] sm:w-[320px] md:w-[360px] lg:w-[380px] xl:w-[420px] aspect-[9/16] overflow-hidden rounded-[2px] shadow-2xl shadow-black/10">
               <div className="absolute inset-0 bg-gradient-to-br from-[#FAF9F7] via-[#F5EDEE] to-[#EFE3E0]">
@@ -145,19 +145,15 @@ export const Hero = () => {
         </div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator - CSS animation for better performance */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 1 }}
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-muted-foreground/50"
+        transition={{ delay: 1.2, duration: 0.6 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center text-muted-foreground/50"
       >
         <span className="text-xs tracking-[0.2em] uppercase mb-2 font-sans">{t('hero.scroll')}</span>
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-          className="w-[1px] h-12 bg-foreground/20"
-        />
+        <div className="w-[1px] h-12 bg-foreground/20 animate-scroll-bounce" />
       </motion.div>
     </section>
   );

@@ -57,13 +57,39 @@ export const Portfolio = () => {
 
   const categories = ["All", ...new Set(portfolioItems.map(item => item.category))];
 
+  // Check if current category has images or videos
+  const getItemsForCategory = (category) => {
+    let items = portfolioItems;
+    const hiddenInAllItems = [3, 8, 11, 13, 6, 25, 26];
+    
+    if (category === "Weddings" && !weddingsLoaded) {
+      items = items.filter(item => item.category !== "Weddings");
+    }
+    if (category === "All") {
+      items = items.filter(item => !hiddenInAllItems.includes(item.id));
+    }
+    if (category !== "All") {
+      items = items.filter(item => item.category === category);
+    }
+    return items;
+  };
+
+  const currentCategoryItems = getItemsForCategory(filter);
+  const hasImages = currentCategoryItems.some(item => item.type === "image");
+  const hasVideos = currentCategoryItems.some(item => item.type === "video");
+
   useEffect(() => {
     if (filter === "Weddings" && !weddingsLoaded) {
       setWeddingsLoaded(true);
     }
-    // Reset media filter to photos when category changes
-    setMediaFilter("image");
-  }, [filter, weddingsLoaded]);
+    // Reset media filter when category changes
+    // If no images, switch to video; if no videos, switch to image
+    if (!hasImages && hasVideos) {
+      setMediaFilter("video");
+    } else {
+      setMediaFilter("image");
+    }
+  }, [filter, weddingsLoaded, hasImages, hasVideos]);
 
   const filteredItems = useMemo(() => {
     let items = portfolioItems;
@@ -154,37 +180,51 @@ export const Portfolio = () => {
         </div>
 
         {/* Media Type Filters */}
-        <div className="flex flex-wrap justify-center gap-4 md:gap-8 mb-16">
-          {[ { key: 'Photos', label: t('portfolio.photos') }, { key: 'Videos', label: t('portfolio.videos') } ].map((type) => (
-            <button
-              key={type.key}
-              onClick={() => setMediaFilter(type.key === 'Photos' ? 'image' : 'video')}
-              className={`text-sm md:text-base tracking-wide transition-all pb-1 border-b-2 ${
-                (mediaFilter === (type.key === 'Photos' ? 'image' : 'video'))
-                  ? "border-foreground text-foreground"
-                  : "border-transparent text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {type.label}
-            </button>
-          ))}
-        </div>
+        {(hasImages || hasVideos) && (
+          <div className="flex flex-wrap justify-center gap-4 md:gap-8 mb-16">
+            {hasImages && (
+              <button
+                onClick={() => setMediaFilter('image')}
+                className={`text-sm md:text-base tracking-wide transition-all pb-1 border-b-2 ${
+                  mediaFilter === 'image'
+                    ? "border-foreground text-foreground"
+                    : "border-transparent text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {t('portfolio.photos')}
+              </button>
+            )}
+            {hasVideos && (
+              <button
+                onClick={() => setMediaFilter('video')}
+                className={`text-sm md:text-base tracking-wide transition-all pb-1 border-b-2 ${
+                  mediaFilter === 'video'
+                    ? "border-foreground text-foreground"
+                    : "border-transparent text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {t('portfolio.videos')}
+              </button>
+            )}
+          </div>
+        )}
 
         {/* Grid */}
-        <motion.div 
-          layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
-        >
-          <AnimatePresence>
-            {filteredItems.map((item) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <AnimatePresence mode="popLayout">
+            {filteredItems.map((item, index) => (
               <motion.div
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.4 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ 
+                  type: "spring",
+                  stiffness: 100,
+                  damping: 20,
+                  delay: index * 0.05
+                }}
                 key={item.id}
-                className="group relative aspect-[4/5] overflow-hidden bg-muted cursor-pointer"
+                className="group relative aspect-[4/5] overflow-hidden bg-muted cursor-pointer will-change-transform"
                 onClick={() => {
                   if (item.type === "image") {
                     setIsPreviewVideoLoading(false);
@@ -197,7 +237,7 @@ export const Portfolio = () => {
                   }
                 }}
               >
-                <div className="absolute inset-0 bg-[#E8DFDC] transition-transform duration-700 group-hover:scale-105">
+                <div className="absolute inset-0 bg-[#E8DFDC] transition-transform duration-500 ease-out group-hover:scale-105 will-change-transform">
                   {item.type === 'image' ? (
                     <img
                       src={getCurrentImageSrc(item)}
@@ -256,8 +296,8 @@ export const Portfolio = () => {
                 )}
 
                 {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500 flex flex-col justify-end p-6">
-                  <div className="translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex flex-col justify-end p-6">
+                  <div className="translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-out">
                     <p className="text-white/80 text-sm tracking-widest uppercase mb-2">{item.category}</p>
                     <h3 className="text-white font-heading text-2xl">{item.title}</h3>
                   </div>
@@ -265,7 +305,7 @@ export const Portfolio = () => {
               </motion.div>
             ))}
           </AnimatePresence>
-        </motion.div>
+        </div>
 
         <AnimatePresence>
           {activePreview && (
