@@ -14,9 +14,13 @@ export const About = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ type: "spring", stiffness: 60, damping: 20 }}
-            className="aspect-[4/5] bg-muted relative will-change-transform"
+            className="aspect-[4/5] bg-muted relative will-change-transform ring-1 ring-foreground/10 hover:ring-foreground/20 transition-all duration-300"
           >
             <img src="/images/photo-about.webp" alt="About portrait" className="w-full h-full object-cover" loading="lazy" />
+            
+            {/* Decorative frame corners */}
+            <div className="absolute -top-6 -right-6 w-12 h-12 border border-foreground/20" />
+            <div className="absolute -bottom-6 -left-6 w-12 h-12 border border-foreground/20" />
           </motion.div>
 
           {/* Text Side */}

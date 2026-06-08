@@ -6,7 +6,7 @@ import { portfolioItems } from "@/data/portfolio";
 import { Play } from "lucide-react";
 
 export const Portfolio = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [filter, setFilter] = useState("All");
   const [mediaFilter, setMediaFilter] = useState("image"); // 'image', 'video'
   const [imageTryIndex, setImageTryIndex] = useState({});
@@ -224,7 +224,7 @@ export const Portfolio = () => {
                   delay: index * 0.05
                 }}
                 key={item.id}
-                className="group relative aspect-[4/5] overflow-hidden bg-muted cursor-pointer will-change-transform"
+                className="group relative aspect-[4/5] overflow-hidden bg-muted cursor-pointer will-change-transform transform-gpu transition-all duration-300 hover:shadow-lg hover:shadow-black/10"
                 onClick={() => {
                   if (item.type === "image") {
                     setIsPreviewVideoLoading(false);
@@ -242,7 +242,7 @@ export const Portfolio = () => {
                     <img
                       src={getCurrentImageSrc(item)}
                       alt={item.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       loading="lazy"
                       onError={() => {
                         const nextIndex = (imageTryIndex[item.id] ?? 0) + 1;

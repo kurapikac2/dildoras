@@ -71,20 +71,20 @@ export const Contact = () => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
             <Button
               size="lg"
-              className="w-full sm:w-auto rounded-none font-sans tracking-wide h-14 px-8 bg-foreground text-background hover:bg-foreground/90 group"
+              className="w-full sm:w-auto rounded-none font-sans tracking-wide h-14 px-8 bg-foreground text-background hover:bg-foreground/90 active:scale-95 transition-all duration-200 group shadow-md hover:shadow-lg"
               onClick={handleOpenInstagram}
             >
-              <InstagramIcon className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
+              <InstagramIcon className="mr-2 h-5 w-5 group-hover:rotate-12 group-hover:scale-120 transition-all duration-300" />
               {t('contact.instagram')}
             </Button>
             
             <Button
               size="lg"
               variant="outline"
-              className="w-full sm:w-auto rounded-none font-sans tracking-wide h-14 px-8 border-foreground/20 hover:bg-muted group"
+              className="w-full sm:w-auto rounded-none font-sans tracking-wide h-14 px-8 border-foreground/20 hover:bg-muted group active:scale-95 transition-all duration-200"
               onClick={handleOpenTelegram}
             >
-              <TelegramIcon className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
+              <TelegramIcon className="mr-2 h-5 w-5 group-hover:rotate-12 group-hover:scale-120 transition-all duration-300" />
               {t('contact.telegram')}
             </Button>
           </div>

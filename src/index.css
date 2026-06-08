@@ -86,15 +86,67 @@ html.lenis {
   pointer-events: none;
 }
 
-/* Optimized scroll indicator animation */
-@keyframes scroll-bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(10px); }
+/* Smooth scroll indicator animation */
+@keyframes scroll-bounce-smooth {
+  0%, 100% { 
+    opacity: 0.4;
+    transform: translateY(0);
+  }
+  50% { 
+    opacity: 1;
+    transform: translateY(12px);
+  }
 }
 
 .animate-scroll-bounce {
-  animation: scroll-bounce 2s ease-in-out infinite;
+  animation: scroll-bounce-smooth 2.5s ease-in-out infinite;
   will-change: transform;
+}
+
+/* Floating blob animation */
+@keyframes float-slow {
+  0%, 100% { 
+    transform: translateY(0) translateX(0);
+    opacity: 0.15;
+  }
+  25% { 
+    transform: translateY(-20px) translateX(15px);
+    opacity: 0.2;
+  }
+  50% { 
+    transform: translateY(-40px) translateX(0);
+    opacity: 0.15;
+  }
+  75% { 
+    transform: translateY(-20px) translateX(-15px);
+    opacity: 0.2;
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 8s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-float-slower {
+  animation: float-slow 12s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Smooth underline animation */
+@keyframes underline-expand {
+  from {
+    width: 0;
+    left: 50%;
+  }
+  to {
+    width: 100%;
+    left: 0;
+  }
+}
+
+.animate-underline-expand {
+  animation: underline-expand 0.3s ease-out forwards;
 }
 
 /* Reduced motion support */

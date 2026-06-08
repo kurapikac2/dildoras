@@ -17,7 +17,7 @@ i18n
     resources,
     fallbackLng: 'en',
     interpolation: {
-      escapeValue: false,
+      escapeValue: true,
     },
     detection: {
       order: ['localStorage', 'navigator'],

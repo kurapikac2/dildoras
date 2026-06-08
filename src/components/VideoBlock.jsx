@@ -105,9 +105,22 @@ export const VideoBlock = () => {
               }}
             />
             {isVideoLoading && (
-              <div className="absolute inset-0 flex items-center justify-center bg-black/45 text-white">
-                <div className="flex flex-col items-center gap-3">
-                  <div className="h-10 w-10 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+              <div className="absolute inset-0 flex items-center justify-center bg-black/45 backdrop-blur-sm text-white">
+                <div className="flex flex-col items-center gap-4">
+                  <div className="flex gap-2 items-center">
+                    {[0, 1, 2].map((i) => (
+                      <motion.div
+                        key={i}
+                        animate={{ y: [0, -8, 0] }}
+                        transition={{ 
+                          duration: 1.2, 
+                          delay: i * 0.2, 
+                          repeat: Infinity 
+                        }}
+                        className="w-2 h-2 bg-white rounded-full"
+                      />
+                    ))}
+                  </div>
                   <p className="text-sm tracking-[0.08em] uppercase">{t('portfolio.loading')}</p>
                 </div>
               </div>

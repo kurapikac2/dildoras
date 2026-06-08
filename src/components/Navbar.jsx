@@ -44,8 +44,9 @@ export const Navbar = () => {
       }`}
     >
       <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
-        <a href="#" className="font-heading text-2xl font-medium tracking-wide text-foreground">
+        <a href="#" className="font-heading text-2xl font-medium tracking-wide text-foreground group relative">
           Dildora
+          <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-foreground/60 group-hover:w-full transition-all duration-300" />
         </a>
 
         {/* Desktop Nav */}

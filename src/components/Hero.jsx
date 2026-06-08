@@ -51,6 +51,10 @@ export const Hero = () => {
     <section className="relative min-h-[100svh] w-full bg-[#F5EDEE] overflow-hidden">
       {/* Subtle background texture */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#FAF9F7] via-[#F5EDEE] to-[#EFE3E0]" />
+      
+      {/* Floating background blobs */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-foreground/5 rounded-full blur-3xl animate-float-slower" />
+      <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-muted/20 rounded-full blur-3xl animate-float-slow" />
 
       <div className="relative z-10 container mx-auto px-6 md:px-12 min-h-[100svh] flex items-center">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center w-full py-24 lg:py-0">

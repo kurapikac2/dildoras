@@ -80,9 +80,9 @@ export const Services = () => {
                 variants={itemVariants}
                 className="will-change-transform"
               >
-                <Card className="h-full bg-background border-border/50 hover:border-foreground/20 transition-colors duration-300 rounded-none shadow-sm hover:shadow-md">
+                <Card className="h-full bg-background border-border/50 hover:border-foreground/20 hover:bg-muted/30 hover:shadow-lg transition-all duration-300 rounded-none shadow-sm group">
                   <CardHeader className="text-center pb-4 pt-10">
-                    <div className="mx-auto w-12 h-12 flex items-center justify-center bg-muted mb-4 rounded-full text-foreground/70">
+                    <div className="mx-auto w-12 h-12 flex items-center justify-center bg-muted group-hover:bg-muted/60 mb-4 rounded-full text-foreground/70 group-hover:scale-125 transition-all duration-300">
                       {Icon && <Icon size={24} strokeWidth={1.5} />}
                     </div>
                     <CardTitle className="font-heading text-2xl font-normal">{service.title}</CardTitle>

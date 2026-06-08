@@ -3,6 +3,21 @@ import { motion } from "framer-motion";
 export const SectionTitle = ({ title, subtitle, className = "" }) => {
   return (
     <div className={`text-center mb-16 ${className}`}>
+      {subtitle && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6 }}
+          className="flex items-center justify-center gap-4 mb-6"
+        >
+          <span className="h-[1px] w-6 md:w-8 bg-foreground/30" />
+          <span className="text-xs md:text-sm uppercase tracking-[0.2em] text-muted-foreground font-sans">
+            {subtitle}
+          </span>
+          <span className="h-[1px] w-6 md:w-8 bg-foreground/30" />
+        </motion.div>
+      )}
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -12,17 +27,6 @@ export const SectionTitle = ({ title, subtitle, className = "" }) => {
       >
         {title}
       </motion.h2>
-      {subtitle && (
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.15 }}
-          className="text-lg text-muted-foreground max-w-2xl mx-auto font-sans will-change-transform"
-        >
-          {subtitle}
-        </motion.p>
-      )}
     </div>
   );
 };
